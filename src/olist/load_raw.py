@@ -35,6 +35,6 @@ def load_raw(con: duckdb.DuckDBPyConnection, raw_dir: Path) -> None:
             "SELECT * FROM read_csv(?, header = true, all_varchar = true)",
             [str(path)],
         )
-        rows = con.execute(f"SELECT COUNT(*) FROM raw.{table}").fetchone()[0]
+        rows = con.execute(f"SELECT COUNT(*) FROM raw.{table}").fetchall()[0][0]
         logger.info("raw.%s: %s rows", table, rows)
         

@@ -21,3 +21,13 @@ SELECT
     (SELECT SUM(i.price)
        FROM raw_order_items i
        JOIN raw_order_payments p ON p.order_id = i.order_id) AS revenue_after_bad_join;
+
+-- 4. How many real customers ordered from more than one zip code?
+SELECT zips_used, COUNT(*) AS customers
+FROM (
+    SELECT customer_unique_id, COUNT(DISTINCT customer_zip_code_prefix) AS zips_used
+    FROM raw_customers
+    GROUP BY customer_unique_id
+) AS t
+GROUP BY zips_used
+ORDER BY zips_used;
